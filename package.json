@@ -1,0 +1,15 @@
+{
+  "name": "git-hash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "expect.js": "^0.3.1",
+    "shasum": "^1.0.2"
+  }
+}

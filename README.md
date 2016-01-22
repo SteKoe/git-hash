@@ -15,7 +15,6 @@ $ echo -n 'Hello, World!' | git hash-object --stdin
 b45ef6fec89518d314f546fd6c3025367b721684
 ```
 
-
 git-hash.js:
 
 ```
@@ -24,7 +23,29 @@ var sha = GitHash.blob('Hello, World!'); //sha=b45ef6fec89518d314f546fd6c3025367
 ```
 
 ## git-hash.commit()
-tbd
+Native git command:
+
+```
+$ echo -n -e 'tree 7a2df406dae8eaa23c427cdd1d3ab68f185fcf6f\nauthor Stephan Koeninger <github@stekoe.de> 1453441379 +0100\ncommitter Stephan Koeninger <github@stekoe.de> 1453441379 +0100\n\nInitial commit\n' | git hash-object -t commit --stdin
+125757d5d2521927c0bd83e22537d401b5dc875a
+```
+
+git-hash.js:
+
+```
+var GitHash = require('git-hash');
+
+var commitObject = [
+    'tree 7a2df406dae8eaa23c427cdd1d3ab68f185fcf6f',
+    'author Stephan Koeninger <github@stekoe.de> 1453441379 +0100',
+    'committer Stephan Koeninger <github@stekoe.de> 1453441379 +0100',
+    '',
+    'Initial commit',
+    ''
+].join('\n');
+var sha = GitHash.commit(commitObject); //sha=125757d5d2521927c0bd83e22537d401b5dc875a
+```
+
 
 ## git-hash.tree()
 tbd

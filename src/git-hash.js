@@ -1,4 +1,5 @@
-var shasum = require('shasum');
+'use strict';
+var _shasum = require('shasum');
 
 exports = module.exports = {
     blob: hash('blob'),
@@ -17,7 +18,7 @@ function hash(type) {
             new Buffer(content)
         ];
         var buffer = Buffer.concat(items);
-        return shasum(buffer);
+        return _shasum(buffer);
     }
 }
 
@@ -26,22 +27,22 @@ function hashTree(content) {
         .filter(c => c !== "")
         .map(c => {
             var splitted = c.split(/\s|\t/g);
-            var mode = splitted[0];
+            var mode = (+splitted[0]).toString();
             var sha = splitted[2];
             var filename = splitted[3];
 
             var items = [
-                new Buffer(mode),
+                new Buffer(mode, 'utf8'),
                 new Buffer(' '),
-                new Buffer(filename),
+                new Buffer(filename, 'utf8'),
                 new Buffer('\0'),
                 new Buffer(sha, 'hex')
             ];
-
             return Buffer.concat(items);
         });
 
-    return hash('tree')(Buffer.concat(a));
+    let buffer = Buffer.concat(a);
+    return hash('tree')(buffer);
 }
 
 function bytes(s) {

@@ -1,7 +1,10 @@
-var GitHash = require('../src/git-hash');
-var expect = require('expect.js');
+'use strict';
+const expect = require('expect.js');
 
-describe('hash', () => {
+const GitHash = require('../src/git-hash');
+const GitUtil = require('../src/git-util');
+
+describe('git-hash', () => {
     it('hashes blobs correctly when no LR is provided!', () => {
         var actual = GitHash.blob('Hello, World!');
         expect(actual).to.be('b45ef6fec89518d314f546fd6c3025367b721684');
@@ -37,16 +40,17 @@ describe('hash', () => {
     });
 
     it('hashes tree correctly!', () => {
-        var commitObject = [
-            '100644 blob b45ef6fec89518d314f546fd6c3025367b721684\ttest.txt'
+        var treeObject = [
+            '040000 tree 341cf04522a24fcf326c5e46ff7ce4f66ff310dd\tb.1',
+            '040000 tree 29787a75e7e14cf70a38fa88e1a2f9444bbf8ead\tb'
         ].join('\n');
 
-        var actual = GitHash.tree(commitObject);
-        expect(actual).to.be('341cf04522a24fcf326c5e46ff7ce4f66ff310dd');
+        var actual = GitHash.tree(treeObject);
+        expect(actual).to.be('aa1b5ecebb117f8aaa5bdf7d399ae151a96dc93f');
     });
 
     it('hashes complex tree correctly!', () => {
-        var commitObject = [
+        var treeObject = [
             '100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\ta',
             '100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\tb',
             '100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\tc',
@@ -54,7 +58,7 @@ describe('hash', () => {
             '100644 blob 485898852752293ee18a0160210f8ca51e6ba37d\ttree.txt'
         ].join('\n');
 
-        var actual = GitHash.tree(commitObject);
+        var actual = GitHash.tree(treeObject);
         expect(actual).to.be('f32cd58dfcf86ce1c3413c7b4b7d5621f1a21617');
     });
 });
